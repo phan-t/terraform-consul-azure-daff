@@ -6,7 +6,7 @@ sudo cat << EOF > /etc/systemd/system/${NAME}.service
 Description=${NAME}
 
 [Service]
-ExecStart=/opt/consul/bin/${NAME} -config-file /opt/consul/config/config.hcl
+ExecStart=/opt/consul/bin/${NAME} agent -config-file /opt/consul/config/config.hcl
 User=consul
 Group=consul
 LimitMEMLOCK=infinity
