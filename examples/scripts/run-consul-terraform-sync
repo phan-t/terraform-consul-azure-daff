@@ -6,7 +6,7 @@ sudo cat << EOF > /etc/systemd/system/${NAME}.service
 Description=${NAME}
 
 [Service]
-ExecStart=/opt/consul-terraform-sync/bin/${NAME} -config-file /opt/consul-terraform-sync/config/cts-config.hcl
+ExecStart=/opt/consul-terraform-sync/bin/${NAME} -config-file /opt/consul-terraform-sync/config/config.hcl
 User=consul
 Group=consul
 LimitMEMLOCK=infinity
@@ -18,7 +18,7 @@ WantedBy=multi-user.target
 EOF
 
 # Change owner of consul-terraform-sync config
-sudo chown consul:consul /opt/consul-terraform-sync/config/cts-config.hcl
+sudo chown consul:consul /opt/consul-terraform-sync/config/config.hcl
 
 sudo chmod 664 /etc/systemd/system/${NAME}.service
 sudo systemctl daemon-reload
