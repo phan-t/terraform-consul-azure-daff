@@ -111,20 +111,20 @@ function has_apt_get {
   [ -n "$(command -v apt-get)" ]
 }
 
-function install_dependencies {
-  log_info "Installing dependencies"
+# function install_dependencies {
+#   log_info "Installing dependencies"
 
-  if has_apt_get; then
-    sudo apt-get update -y
-    sudo apt-get install -y awscli curl unzip jq
-  elif has_yum; then
-    sudo yum update -y
-    sudo yum install -y aws curl unzip jq
-  else
-    log_error "Could not find apt-get or yum. Cannot install dependencies on this OS."
-    exit 1
-  fi
-}
+#   if has_apt_get; then
+#     sudo apt-get update -y
+#     sudo apt-get install -y awscli curl unzip jq
+#   elif has_yum; then
+#     sudo yum update -y
+#     sudo yum install -y aws curl unzip jq
+#   else
+#     log_error "Could not find apt-get or yum. Cannot install dependencies on this OS."
+#     exit 1
+#   fi
+# }
 
 function user_exists {
   local -r username="$1"
@@ -283,7 +283,7 @@ function install {
 
   log_info "Starting fake-service install"
 
-  install_dependencies
+  # install_dependencies
   create_fake_service_user "$user"
   create_fake_service_install_paths "$path" "$user"
 
