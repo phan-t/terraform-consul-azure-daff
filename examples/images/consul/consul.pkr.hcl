@@ -4,7 +4,7 @@ packer {
 
 variable "azure_region" {
   type    = string
-  default = "australiaeast"
+  default = "australiacentral"
 }
 
 variable "azure_rg_name" {
@@ -35,7 +35,7 @@ source "azure-arm" "ubuntu20-arm" {
     application     = "consul"
     consul_version  = "${var.consul_version}"
     owner           = "tphan@hashicorp.com"
-    packer_source   = "https://github.com/phan-t/terraform-consul-azure-daff/blob/master/examples/arms/consul/consul.pkr.hcl"
+    packer_source   = "https://github.com/phan-t/terraform-consul-azure-daff/blob/master/examples/images/consul/consul.pkr.hcl"
   }
 }
 

@@ -4,7 +4,7 @@ packer {
 
 variable "azure_region" {
   type    = string
-  default = "australiaeast"
+  default = "australiacentral"
 }
 
 variable "azure_rg_name" {
@@ -31,7 +31,6 @@ variable "consul_terraform_sync_download_url" {
   default = "${env("CONSUL_TERRAFORM_SYNC_DOWNLOAD_URL")}"
 }
 
-
 source "azure-arm" "ubuntu20-arm" {
   use_azure_cli_auth                = true
   image_offer                       = "0001-com-ubuntu-server-focal"
@@ -46,7 +45,7 @@ source "azure-arm" "ubuntu20-arm" {
     application     = "consul-terraform-sync"
     consul_version  = "${var.consul_version}"
     owner           = "tphan@hashicorp.com"
-    packer_source   = "https://github.com/phan-t/terraform-consul-azure-daff/blob/master/examples/arms/consul/consul.pkr.hcl"
+    packer_source   = "https://github.com/phan-t/terraform-consul-azure-daff/blob/master/examples/arms/consul/consul-terraform-sync.pkr.hcl"
   }
 }
 
