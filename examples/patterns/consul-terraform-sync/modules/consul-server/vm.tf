@@ -60,7 +60,7 @@ resource "azurerm_network_security_rule" "this" {
   protocol                   = "Tcp"
   source_port_range          = "*"
   destination_port_range     = "8500-8502"
-  source_address_prefix      = "203.123.99.211"
+  source_address_prefix      = "*"
   destination_address_prefix = "*"
   
   resource_group_name         = data.azurerm_resource_group.this.name
