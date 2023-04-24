@@ -22,10 +22,6 @@ variable "network_type" {
   }
 }
 
-variable "name_prefix" {
-  type        = string
-}
-
 variable "address_space" {
   type        = string
 }
@@ -44,17 +40,12 @@ variable "hub_vnet_name" {
   default     = ""
 }
 
-variable "peer_ip" {
+variable "hub_afw_private_ip" {
   type        = string
   default     = ""
 }
 
 variable "peer_vnet_id" {
-  type        = string
-  default     = ""
-}
-
-variable "my_ip" {
   type        = string
   default     = ""
 }

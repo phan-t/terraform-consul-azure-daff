@@ -13,10 +13,3 @@ variable "owner" {
   type        = string
   default     = ""
 }
-
-variable "my_ip" {
-  type        = string
-  default     = ""
-}
-
-// azure variables

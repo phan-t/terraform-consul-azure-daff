@@ -13,17 +13,15 @@ module "hub-canberra" {
 
   deployment_id    = local.deployment_id
   owner            = var.owner
-  my_ip            = var.my_ip
 
   location         = "Australia Central"
 
   network_type     = "hub"
-  name_prefix      = "hub-canberra"
   address_space    = "10.0.0.0/16"
   subnet_functions = [
-    "Firewall",
-    "Management",
-    "Gateway"
+    "firewall",
+    "gateway",
+    "management"
   ]
 }
 
@@ -36,16 +34,16 @@ module "spoke-sydney" {
   location         = "Australia East"
 
   network_type     = "spoke"
-  name_prefix      = "spoke-sydney"
   address_space    = "10.1.0.0/16"
   subnet_functions = [
-    "web"
+    "web",
+    "test"
   ]
 
-  hub_rg_name      = module.hub-canberra.management_resource_group_name
-  hub_vnet_name    = module.hub-canberra.hub_virtual_network_name
-  peer_ip          = module.hub-canberra.hub_firewall_private_ip
-  peer_vnet_id     = module.hub-canberra.hub_virtual_network_id
+  hub_rg_name        = module.hub-canberra.rg_name
+  hub_vnet_name      = module.hub-canberra.vnet_name
+  hub_afw_private_ip = module.hub-canberra.afw_private_ip
+  peer_vnet_id       = module.hub-canberra.vnet_id
 }
 
 module "spoke-melbourne" {
@@ -57,14 +55,14 @@ module "spoke-melbourne" {
   location         = "Australia Southeast"
 
   network_type     = "spoke"
-  name_prefix      = "spoke-melbourne"
   address_space    = "10.2.0.0/16"
   subnet_functions = [
-    "database"
+    "database",
+    "test"
   ]
 
-  hub_rg_name      = module.hub-canberra.management_resource_group_name
-  hub_vnet_name    = module.hub-canberra.hub_virtual_network_name
-  peer_ip          = module.hub-canberra.hub_firewall_private_ip
-  peer_vnet_id     = module.hub-canberra.hub_virtual_network_id
+  hub_rg_name        = module.hub-canberra.rg_name
+  hub_vnet_name      = module.hub-canberra.vnet_name
+  hub_afw_private_ip = module.hub-canberra.afw_private_ip
+  peer_vnet_id       = module.hub-canberra.vnet_id
 }

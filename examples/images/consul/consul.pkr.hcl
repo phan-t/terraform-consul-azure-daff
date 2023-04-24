@@ -4,7 +4,6 @@ packer {
 
 variable "azure_region" {
   type    = string
-  default = "australiacentral"
 }
 
 variable "azure_rg_name" {

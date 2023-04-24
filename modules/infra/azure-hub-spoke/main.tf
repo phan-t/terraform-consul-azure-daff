@@ -1,10 +1,10 @@
 locals {
-  prefix = "${var.deployment_id}-${var.name_prefix}"
   friendly_location = {
     "Australia Central"   = "canberra",
     "Australia East"      = "sydney",
     "Australia Southeast" = "melbourne"
   }
+  prefix = "${var.deployment_id}-${var.network_type}-${lookup(local.friendly_location, var.location)}"
   subnet_functions = [ for v in var.subnet_functions: lower(v) ]
 }
 
@@ -31,7 +31,7 @@ resource "azurerm_virtual_network" "this" {
 resource "azurerm_subnet" "this" {
   for_each = toset(local.subnet_functions)
 
-  name     = each.value == "firewall" ? "AzureFirewallSubnet" : "${each.value}-snet"
+  name = each.value == "firewall" ? "AzureFirewallSubnet" : "${each.value}-snet"
   address_prefixes = [
     cidrsubnet(azurerm_virtual_network.this.address_space[0], 8, index(local.subnet_functions, each.value))
   ]
@@ -57,7 +57,7 @@ resource "azurerm_subnet" "this" {
 resource "azurerm_public_ip" "this" {
   count = contains(local.subnet_functions, "firewall") ? 1 : 0
 
-  name                = "${local.prefix}-firewall-ip"
+  name                = "${local.prefix}-afw-ip"
   location            = azurerm_resource_group.this.location
   resource_group_name = azurerm_resource_group.this.name
   allocation_method   = "Static"
@@ -67,7 +67,7 @@ resource "azurerm_public_ip" "this" {
 resource "azurerm_firewall" "this" {
   count = contains(local.subnet_functions, "firewall") ? 1: 0
 
-  name                = "${local.prefix}-firewall"
+  name                = "${local.prefix}-afw"
   location            = azurerm_resource_group.this.location
   resource_group_name = azurerm_resource_group.this.name
   sku_name            = "AZFW_VNet"
@@ -89,11 +89,18 @@ resource "azurerm_route_table" "this" {
   disable_bgp_route_propagation = false
 
   route {
-    name           = "default_route"
-    address_prefix = "0.0.0.0/0"
+    name           = "default"
+    address_prefix = "10.0.0.0/8"
     next_hop_type  = "VirtualAppliance"
-    next_hop_in_ip_address = var.peer_ip
+    next_hop_in_ip_address = var.hub_afw_private_ip
   }
+}
+
+resource "azurerm_subnet_route_table_association" "this" {
+  for_each = {for k, v in toset(local.subnet_functions) : k => v if var.network_type == "spoke"}
+  
+  subnet_id      = azurerm_subnet.this["${each.key}"].id
+  route_table_id = azurerm_route_table.this[0].id
 }
 
 resource "azurerm_virtual_network_peering" "spoke-hub" {
