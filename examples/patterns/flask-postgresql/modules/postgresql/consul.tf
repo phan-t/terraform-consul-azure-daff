@@ -16,6 +16,7 @@ resource "consul_service" "this" {
     "environment"      = "development"
     "location"         = lookup(local.friendly_location, var.location)
     "private_endpoint" = true
+    "source_subnet"    = var.source_subnet
   }
 
   depends_on = [

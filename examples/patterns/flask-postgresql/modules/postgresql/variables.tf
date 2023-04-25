@@ -17,3 +17,8 @@ variable "network_type" {
   description = "Network type, one of 'hub' or 'spoke'."
   type        = string
 }
+
+variable "source_subnet" {
+  description = "Source subnet"
+  type        = string
+}

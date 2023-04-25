@@ -48,6 +48,7 @@ module "postgresql" {
   deployment_id   = local.deployment_id
   location        = "Australia Southeast"
   network_type    = "spoke"
+  source_subnet   = module.web-app.subnet
 }
 
 # module "flask" {
