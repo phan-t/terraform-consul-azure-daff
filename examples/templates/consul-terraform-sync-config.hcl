@@ -34,25 +34,22 @@ driver "terraform-cloud" {
 
 # Task Block
 
+// task {
+//   name        = "learn-cts-example"
+//   module      = "findkim/print/cts"
+
+//   condition "services" {
+//     regexp = "flask*"
+//     filter = "Service.Tags contains \"postgresql\""
+//   }
+// }
+
 task {
-  name        = "learn-cts-example"
-  module      = "findkim/print/cts"
+  name        = "ahs-flask-dev-001-nia"
+  module      = "github.com/phan-t/terraform-consul-azure-daff/examples/patterns/ahs-flask-dev-001-nia"
 
   condition "services" {
-    names = ["postgresql"]
+    regexp = "flask*"
+    filter = "Service.Tags contains \"postgresql\""
   }
 }
-
-// task {
-//  name        = "learn-cts-example"
-//  description = "Example task with two services"
-//  module      = "findkim/print/cts"
-//  version     = "0.1.0"
-//  services    = ["fake-service"]
-// }
-
-// task {
-//  name        = "terraform-azurerm-firewall-nia"
-//  module      = "github.com/phan-t/terraform-azurerm-firewall-nia"
-//  services    = ["fake-service"]
-// }
